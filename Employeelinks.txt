@@ -1,0 +1,36 @@
+﻿http://localhost:4511/api/Employee/PostNewEmployeeFromUri?employeeId=69&Name=sjk&Office=jsh&Age=52
+
+
+
+
+http://localhost:4511/api/Employee/PostNewEmployeeFromBody
+
+Content-Type: application/json
+
+
+{
+  "EmployeeId": 1,
+  "Name": "sample string 2",
+  "Office": "sample string 3",
+  "Age": 4
+}
+
+
+
+
+http://localhost:4511/api/Employee/PutUpdatingEmployee?employeeId=69&Name=sjk&Office=jsh&Age=52
+
+
+
+http://localhost:4511/api/Employee/DeleteSpecificEmployee
+
+
+Content-Type: application/json
+
+
+{
+  "EmployeeId": 1,
+  "Name": "sample string 2",
+  "Office": "sample string 3",
+  "Age": 4
+}

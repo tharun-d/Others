@@ -1,0 +1,74 @@
+ public IHttpActionResult GetEmployeesFromEntity()
+        {
+            List<EmployeeModel> Emodel=null;
+
+            using (var ctx= new Employees())
+            {
+                 Emodel=ctx.EmployeeDetails
+                   .Select(s=>new EmployeeModel()
+                   {
+                       EmployeeId=s.EmployeeId,
+                       Age=s.age,
+                       Name=s.name,
+                       Office=s.Office
+                   }).ToList<EmployeeModel>();    
+            }
+            return Ok(Emodel);
+        }
+        public IHttpActionResult GetSpecificEmployeeFromEntity(int id)
+        {
+            List<EmployeeModel> Emodel = null;
+
+            using (var ctx = new Employees())
+            {
+                Emodel = ctx.EmployeeDetails.Where(s => s.EmployeeId == id)
+                     .Select(s => new EmployeeModel()
+                     {
+                         EmployeeId = s.EmployeeId,
+                         Age = s.age,
+                         Name = s.name,
+                         Office = s.Office
+                     }).ToList<EmployeeModel>();
+            }
+            return Ok(Emodel[0]);
+        }
+        public IHttpActionResult PostNewEmployeeIntoEntityFromBody([FromBody]EmployeeModel NewEmployee)
+        {
+            
+            using (var ctx = new Employees())
+            {
+                ctx.EmployeeDetails.Add(new EmployeeDetail()
+                    {
+                        EmployeeId=NewEmployee.EmployeeId,
+                        age=NewEmployee.Age,
+                        name=NewEmployee.Name,
+                        Office=NewEmployee.Office
+
+                    });
+                ctx.SaveChanges();
+            }
+
+            return Ok();
+        }
+        public IHttpActionResult PutUpdatingEmployeeFromBody([FromBody]EmployeeModel Employee)
+        {
+            using (var ctx = new Employees())
+            {
+                var existingemployee = ctx.EmployeeDetails.Where(s => s.EmployeeId == Employee.EmployeeId).FirstOrDefault<EmployeeDetail>();
+                if (existingemployee != null)
+                {
+                    existingemployee.age = Employee.Age;
+                    existingemployee.name = Employee.Name;
+                    existingemployee.Office = Employee.Office;
+                    ctx.SaveChanges();
+                    return Ok();
+
+                }
+                else
+                    return NotFound();
+               
+                
+            }
+
+           
+        }

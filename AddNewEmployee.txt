@@ -1,0 +1,86 @@
+-------------------------
+controller
+------------------------
+
+ public ActionResult AddNewEmployee()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult AddNewEmployee(int id, string Name, string Gender, string DateOfJoining, string DateOfBirth, string Address)
+        {
+            if (Session["employees"]==null)
+            {
+                Session["employees"] = new List<Employee>()
+                                  {
+                                      new Employee{ employeeId=id,employeeName=Name,gender=Gender, dataOfBirth=DateOfBirth,dateOfJoining=DateOfJoining,address=Address},
+                                  };
+
+                return View(Session["employees"] as List<Employee>);  
+            }
+            List<Employee> obj = Session["employees"] as List<Employee>;
+            obj.Add(new Employee { employeeId=id,employeeName=Name,gender=Gender,dataOfBirth=DateOfBirth,dateOfJoining=DateOfJoining,address=Address});
+
+            Session["employees"] = obj;
+            return RedirectToAction("Display");
+
+        }
+----------------------------
+AddNewEmployee.cshtml()
+----------------------------------
+<body>
+
+
+    <header class="container-fluid" style="background-color:black;height:80px;color:black;font-size:35px;">Employee Management App</header>
+    @using (Html.BeginForm("AddNewEmployee", "Home", FormMethod.Post))
+    {
+        @*<form style="width:350px;margin-left:36%;margin-top:20px;font-size:14px">*@
+        <label style="font-size:18px;color:#039bcc">Add new Employee</label><hr />
+        <div class="form-group">
+            <label for="exampleInputEmail1">Employee Id</label>
+            @*<input type="number" class="form-control" id="e1" placeholder="Employee Id" value=@Model.">*@
+            <input type="text" name="id"  />
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputPassword1">Employee Name</label>
+            <input type="text" name="Name" class="form-control" id="e2">
+
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputPassword1">Gender &nbsp;</label>
+            <label class="radio-inline">
+                <input type="radio" name="Gender" value="Male">Male
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="Gender" value="Female">Female
+            </label>
+           
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputPassword1">Date of Birth</label>
+            <input type="date" name="DateOfBirth" class="form-control" id="e4" placeholder="DD/MM/YYYY">
+           
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputPassword1">Date of Joining</label>
+            <input type="date" name="DateOfJoining" class="form-control" id="e5" placeholder="DD/MM/YYYY">
+      
+        </div>
+
+        <div class="form-group">
+            <label for="comment">Address</label>
+            <textarea class="form-control" name="Address" rows="5" id="e6"></textarea>
+           
+        </div>
+
+        <button type="submit" name="btnSubmit" id="btnSubmit" value="Submit" class="btn btn-primary">Submit</button>
+        @*</form>*@
+    }
+    <!--<footer  class="container-fluid" style="background-color:black;height:35px;" ></footer>-->
+</body>
