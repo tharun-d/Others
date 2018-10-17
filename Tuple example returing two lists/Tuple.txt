@@ -1,0 +1,137 @@
+--------------homecontroller---------
+   public ActionResult sdisplay()
+        {
+            EmployeeDAL e = new EmployeeDAL();
+            var tuple = e.DisplayValues();
+            List<EmployeeEntity> ans1 = tuple.Item1;
+            List<Deptentity> ans2 = tuple.Item2;
+            RandomView r = new RandomView()
+            {
+                Employees = ans1,
+                Department = ans2
+
+            };
+            return View(r);
+        }
+--------EmployeeConnection----------
+public class EmployeeDAL
+    {
+        SqlConnection con = null;
+        SqlCommand cmd = null;
+       SqlDataReader dr = null;
+        public EmployeeDAL()
+        {
+            con = new SqlConnection(@"Data Source=WIN-4JK5EFMICTS\SQLEXPRESS;Initial Catalog=mydb;Integrated Security=true");
+            
+        }
+    }
+--------displayValues---
+      public Tuple<List<EmployeeEntity>,List<Deptentity>> DisplayValues()
+        {
+            List<EmployeeEntity> l = new List<EmployeeEntity>();
+            List<Deptentity> dl = new List<Deptentity>();
+            cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "Display";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            try
+            {
+                con.Open();
+                dr = cmd.ExecuteReader();
+                while(dr.Read())
+                {
+                    EmployeeEntity emp = new EmployeeEntity()
+                    {
+                        id = int.Parse(dr["id"].ToString()),
+                        name = dr["name"].ToString(),
+                        Deptid = int.Parse(dr["Deptid"].ToString()),
+                        salary = float.Parse(dr["salary"].ToString())
+
+                    };
+                    l.Add(emp);
+                }
+                dr.NextResult();
+                while(dr.Read())
+                {
+                    Deptentity d = new Deptentity()
+                    {
+                        id = int.Parse(dr["id"].ToString()),
+                        name = dr["name"].ToString()
+                    };
+                    dl.Add(d);
+                }
+                return Tuple.Create(l, dl);
+            }
+            catch(Exception ex)
+            {
+
+            }
+            return null;
+        }
+--------employee entity---------
+	 public class EmployeeEntity
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+        public int Deptid { get; set; }
+        public float salary { get; set; }
+    }
+------Department entity----------
+	public class Deptentity
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+    }
+	
+--------Random View---------------
+	 public class RandomView
+    {
+        public List<EmployeeEntity> Employees { get; set; }
+        public List<Deptentity> Department { get; set; }
+    }
+--------sdisplay View------------
+@model Abinaya.Models.RandomView
+@{
+    ViewBag.Title = "sdisplay";
+}
+<h2>sdisplay</h2>
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Deptid</th>
+        <th>salary</th>
+    </tr>
+    @foreach (var item in Model.Employees)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Deptid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.salary)
+            </td>
+        </tr>
+    }
+</table>
+
+<table class="table">
+    <tr>
+        <th>name</th>
+        <th>id</th>
+    </tr>
+    @foreach (var item in Model.Department)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+        </tr>
+    }
+</table>
+

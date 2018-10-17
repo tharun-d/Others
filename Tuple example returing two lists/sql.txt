@@ -1,0 +1,30 @@
+-------Employees Table--------
+create table Employee(id int primary key,
+                      name varchar(20),
+		      Deptid int,
+		      salary decimal)
+
+insert into Employee values(1,'aaa',2,80000)
+insert into Employee values(2,'abi',3,8000)
+insert into Employee values(3,'bbb',1,75000)
+insert into Employee values(4,'ccc',1,80000)
+
+select * from Employee
+
+----------Dept Table----------
+create table Dept(id int foreign key references Employee(id),
+                   name varchar(20))
+
+insert into Dept values(1,'it')
+insert into Dept values(2,'ece')
+insert into Dept values(3,'cse')
+
+select * from Dept
+
+----------Display stored procedure-------
+create proc Display 
+as
+begin 
+select * from Employee
+select * from Dept
+end
