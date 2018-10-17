@@ -8,7 +8,7 @@
 
 --Note: dont use \\ use only \ in web config..
 
-if you write in .c while then use \\ dont use \
+if you write in .cs then use \\ dont use \
 
 and use only sqlserverauthentication
 -------------------------------------------------------------------------------

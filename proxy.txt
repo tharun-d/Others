@@ -1,17 +1,18 @@
 seeting config for npm via command prompt
 
 
-npm config set http-proxy http://web-proxy.arg.hp.com:8088
-npm config set https-proxy http://web-proxy.arg.hp.com:8088
-npm config set proxy http://web-proxy.arg.hp.com:8088
+npm config set http-proxy http://web-proxy.gbr.hp.com:8088
+npm config set https-proxy http://web-proxy.gbr.hp.com:8088
+npm config set proxy http://web-proxy.gbr.hp.com:8088
 
 
 
 seeting config for git via command prompt
 
 
-git config --global http.proxy http://web-proxy.arg.hp.com:8088
-
+git config --global http.proxy http://web-proxy.gbr.hp.com:8088
+git config --global user.name "John Doe"
+git config --global user.email johndoe@example.com
 
 
 setting config for vscode so that extentins will install properly
@@ -19,6 +20,9 @@ setting config for vscode so that extentins will install properly
 in main toolbar go to file and settings in user preferences finally in right side paste this to replace defaults 
 
 
-"http.proxy": "http://web-proxy.arg.hp.com:8088",
-"https.proxy": "http://web-proxy.arg.hp.com:8088",
+"http.proxy": "http://web-proxy.gbr.hp.com:8088",
+"https.proxy": "http://web-proxy.gbr.hp.com:8088",
 "http.proxyStrictSSL": false
+
+
+16.153.99.11  8088
